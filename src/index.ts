@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-export * from 'ton-core';
+export * from '@ton/core';
 
 //
 // toncenter Client

@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [13.5.1] - 2023-07-14
+## Changed
+- Migrated to `@ton/crypto` package instead of `ton-crypto`
+- Migrated to `@ton/core` instead of `ton-core`
+- Migrated to `@ton/emulator` instead of `ton-emulator`
+- Renamed package to `@ton/ton`
+
 ## [13.5.0] - 2023-05-10
 ## Fixed
 - Replaced `io-ts` with `zod` to reduce web bundle size

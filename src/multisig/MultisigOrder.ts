@@ -1,7 +1,7 @@
 /* Made by @Gusarich and @Miandic */
 
-import { sign, signVerify } from 'ton-crypto';
-import { beginCell, Cell } from 'ton-core';
+import { sign, signVerify } from '@ton/crypto';
+import { beginCell, Cell } from '@ton/core';
 import { MultisigWallet } from './MultisigWallet';
 
 export class MultisigOrder {

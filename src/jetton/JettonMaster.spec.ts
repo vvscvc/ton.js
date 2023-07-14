@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Address } from "ton-core";
+import { Address } from "@ton/core";
 import { createTestClient } from "../utils/createTestClient";
 import { JettonMaster } from "./JettonMaster";
 import { JettonWallet } from "./JettonWallet";

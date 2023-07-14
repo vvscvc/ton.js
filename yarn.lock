@@ -950,6 +950,89 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ton/core@npm:^0.49.2":
+  version: 0.49.2
+  resolution: "@ton/core@npm:0.49.2"
+  dependencies:
+    symbol.inspect: 1.0.1
+  peerDependencies:
+    "@ton/crypto": ">=3.2.0"
+  checksum: c0bbad44f89664852d2289e073fa5666d38b4738f13cb951b973bd56b635df6d45ee26c6d1d6348c8736172fd84aaa8f5ef3296f45cca2b346c715a92a0cf774
+  languageName: node
+  linkType: hard
+
+"@ton/crypto-primitives@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@ton/crypto-primitives@npm:2.0.0"
+  dependencies:
+    jssha: 3.2.0
+  checksum: 1a686b04dc1430792341339f0ddc1e2f5effd94d31ae118baf2c510e074201495801787b2ca881a6ceb587f89212eb081ec9e3979d374d9c9004c6c4b61fc591
+  languageName: node
+  linkType: hard
+
+"@ton/crypto@npm:3.2.0":
+  version: 3.2.0
+  resolution: "@ton/crypto@npm:3.2.0"
+  dependencies:
+    "@ton/crypto-primitives": 2.0.0
+    jssha: 3.2.0
+    tweetnacl: 1.0.3
+  checksum: 0851fad506796573ec6079c1f36d3d07f4070abb90a4a2f3e621f6b2b2c6725c13096a5afdabb24611aa2a063ba335dcbc742e98a3c1cd0bbf3645ae55c1a8c6
+  languageName: node
+  linkType: hard
+
+"@ton/emulator@npm:^2.1.1":
+  version: 2.1.3
+  resolution: "@ton/emulator@npm:2.1.3"
+  dependencies:
+    prando: ^6.0.1
+    teslabot: ^1.5.0
+    zod: ^3.20.2
+  peerDependencies:
+    "@ton/core": ">=0.49.2"
+    "@ton/crypto": ^3.2.0
+  checksum: cf774bf3b06f36d72d57c18adf29c36a6a1bf6b27784fb77dbc36d43db88eabf708b498c24c5fe3702035447b4b1183b7a6da3f8df7b7af84c46c2ab8eaf821b
+  languageName: node
+  linkType: hard
+
+"@ton/ton@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@ton/ton@workspace:."
+  dependencies:
+    "@release-it/keep-a-changelog": ^3.1.0
+    "@ton/core": ^0.49.2
+    "@ton/crypto": 3.2.0
+    "@ton/emulator": ^2.1.1
+    "@types/jest": ^27.0.1
+    "@types/node": ^16.7.10
+    axios: ^0.25.0
+    buffer: ^6.0.3
+    dataloader: ^2.0.0
+    expect: ^27.1.0
+    jest: ^27.1.0
+    jest-mock: ^27.1.0
+    karma: ^6.3.4
+    karma-chrome-launcher: ^3.1.0
+    karma-jasmine: ^4.0.1
+    karma-typescript: ^5.5.2
+    karma-webpack: ^5.0.0
+    prando: ^6.0.1
+    release-it: ^15.5.1
+    symbol.inspect: 1.0.1
+    teslabot: ^1.3.0
+    ts-jest: ^27.0.5
+    ts-loader: ^9.2.5
+    ts-node: ^10.7.0
+    typedoc: ^0.23.24
+    typescript: ^4.4.2
+    webpack: ^5.51.2
+    zod: ^3.21.4
+  peerDependencies:
+    "@ton/core": ">=0.49.2"
+    "@ton/crypto": ">=3.2.0"
+  languageName: unknown
+  linkType: soft
+
 "@tootallnate/once@npm:1":
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
@@ -8145,89 +8228,6 @@ __metadata:
   checksum: 952c29e2a85d7123239b5cfdd889a0dde47ab0497f0913d70588f19c53f7e0b5327c95f4651e413c74b785147f9637b17410ac8c846d5d4a20a5a33eb6dc3a45
   languageName: node
   linkType: hard
-
-"ton-core@npm:^0.48.0":
-  version: 0.48.0
-  resolution: "ton-core@npm:0.48.0"
-  dependencies:
-    symbol.inspect: 1.0.1
-  peerDependencies:
-    ton-crypto: ">=3.2.0"
-  checksum: 9861a5931635eb9e582937084b37f15a8396d7c3a959b4b259a3594f805077d9b9ebeab29ba089c678e99d0eabb6c52f874454ada2e455300ac3c238d7682ee4
-  languageName: node
-  linkType: hard
-
-"ton-crypto-primitives@npm:2.0.0":
-  version: 2.0.0
-  resolution: "ton-crypto-primitives@npm:2.0.0"
-  dependencies:
-    jssha: 3.2.0
-  checksum: a81e5e7f1e44a2f32c519d6a9c3512c047b837be2f90a4e5aa226378b330ec6f9d36c1937a21b947eb792ae819c6906cfbd5b5eeab891f9df486d570141fc749
-  languageName: node
-  linkType: hard
-
-"ton-crypto@npm:3.2.0":
-  version: 3.2.0
-  resolution: "ton-crypto@npm:3.2.0"
-  dependencies:
-    jssha: 3.2.0
-    ton-crypto-primitives: 2.0.0
-    tweetnacl: 1.0.3
-  checksum: 5c4b077ce36f6d6583c6fee91be45ba88024cfb17927d2da8fce355f226dba559ba5dc91ee508b205c537d6dd6a34bfea17a26c2656ef80bd72f64d1a2604c45
-  languageName: node
-  linkType: hard
-
-"ton-emulator@npm:^2.1.1":
-  version: 2.1.1
-  resolution: "ton-emulator@npm:2.1.1"
-  dependencies:
-    prando: ^6.0.1
-    teslabot: ^1.5.0
-    zod: ^3.20.2
-  peerDependencies:
-    ton-core: ">=0.47.0"
-    ton-crypto: ^3.2.0
-  checksum: 0146e000f0a131606029cfb03571a116cbfba1e7a4b94cbe5f3953324d5237391c51c2f68b2817bb3be9c604b22e5385ebba0b71fd265298b8f81dd4525d4754
-  languageName: node
-  linkType: hard
-
-"ton@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "ton@workspace:."
-  dependencies:
-    "@release-it/keep-a-changelog": ^3.1.0
-    "@types/jest": ^27.0.1
-    "@types/node": ^16.7.10
-    axios: ^0.25.0
-    buffer: ^6.0.3
-    dataloader: ^2.0.0
-    expect: ^27.1.0
-    jest: ^27.1.0
-    jest-mock: ^27.1.0
-    karma: ^6.3.4
-    karma-chrome-launcher: ^3.1.0
-    karma-jasmine: ^4.0.1
-    karma-typescript: ^5.5.2
-    karma-webpack: ^5.0.0
-    prando: ^6.0.1
-    release-it: ^15.5.1
-    symbol.inspect: 1.0.1
-    teslabot: ^1.3.0
-    ton-core: ^0.48.0
-    ton-crypto: 3.2.0
-    ton-emulator: ^2.1.1
-    ts-jest: ^27.0.5
-    ts-loader: ^9.2.5
-    ts-node: ^10.7.0
-    typedoc: ^0.23.24
-    typescript: ^4.4.2
-    webpack: ^5.51.2
-    zod: ^3.21.4
-  peerDependencies:
-    ton-core: ">=0.48.0"
-    ton-crypto: ">=3.2.0"
-  languageName: unknown
-  linkType: soft
 
 "tough-cookie@npm:^4.0.0":
   version: 4.0.0

@@ -1,4 +1,4 @@
-import { Address, beginCell } from 'ton-core';
+import { Address, beginCell } from '@ton/core';
 import { TonClient } from './TonClient';
 import { TonClient4 } from './TonClient4';
 

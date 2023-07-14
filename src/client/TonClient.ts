@@ -8,7 +8,7 @@
 
 import { HttpApi } from "./api/HttpApi";
 import { AxiosAdapter } from 'axios';
-import { Address, beginCell, Cell, comment, Contract, ContractProvider, ContractState, external, loadTransaction, Message, openContract, storeMessage, toNano, Transaction, TupleItem, TupleReader } from 'ton-core';
+import { Address, beginCell, Cell, comment, Contract, ContractProvider, ContractState, external, loadTransaction, Message, openContract, storeMessage, toNano, Transaction, TupleItem, TupleReader } from '@ton/core';
 import { Maybe } from "../utils/maybe";
 
 export type TonClientParameters = {

@@ -6,8 +6,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { beginCell, MessageRelaxed, storeMessageRelaxed } from "ton-core";
-import { sign } from "ton-crypto";
+import { beginCell, MessageRelaxed, storeMessageRelaxed } from "@ton/core";
+import { sign } from "@ton/crypto";
 import { Maybe } from "../../utils/maybe";
 
 export function createWalletTransferV1(args: { seqno: number, sendMode: number, message: Maybe<MessageRelaxed>, secretKey: Buffer }) {

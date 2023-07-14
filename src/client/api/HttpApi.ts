@@ -8,7 +8,7 @@
 import { InMemoryCache, TonCache } from './TonCache';
 import DataLoader from 'dataloader';
 import axios, { AxiosAdapter } from 'axios';
-import { Address, Cell, TupleItem } from 'ton-core';
+import { Address, Cell, TupleItem } from '@ton/core';
 import { z } from 'zod';
 
 const version = require('../../../package.json').version as string;

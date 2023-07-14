@@ -8,7 +8,7 @@
 
 import { randomTestKey } from "../utils/randomTestKey";
 import { createTestClient4 } from "../utils/createTestClient4";
-import { Address, internal } from "ton-core";
+import { Address, internal } from "@ton/core";
 import { WalletContractV2R2 } from "./WalletContractV2R2";
 
 describe('WalletContractV2R2', () => {
