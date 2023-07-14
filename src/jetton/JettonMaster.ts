@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { Address, beginCell, Contract, ContractProvider } from "ton-core";
+import { Address, beginCell, Contract, ContractProvider } from "@ton/core";
 
 export class JettonMaster implements Contract {
 

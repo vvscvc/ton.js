@@ -5,7 +5,7 @@ import {
     Builder,
     MessageRelaxed,
     storeMessageRelaxed,
-} from 'ton-core';
+} from '@ton/core';
 import { MultisigOrder } from './MultisigOrder';
 
 export class MultisigOrderBuilder {

@@ -1,8 +1,8 @@
 /* Made by @Gusarich and @Miandic */
 
-import { beginCell, Cell, MessageRelaxed, Address } from 'ton-core';
-import { getSecureRandomBytes, keyPairFromSeed, sign } from 'ton-crypto';
-import { testAddress } from 'ton-emulator';
+import { beginCell, Cell, MessageRelaxed, Address } from '@ton/core';
+import { getSecureRandomBytes, keyPairFromSeed, sign } from '@ton/crypto';
+import { testAddress } from '@ton/emulator';
 import { MultisigOrderBuilder } from './MultisigOrderBuilder';
 import { MultisigWallet } from './MultisigWallet';
 import { MultisigOrder } from './MultisigOrder';

@@ -1,4 +1,4 @@
-# TON js client
+# TON JS Client
 
 [![Version npm](https://img.shields.io/npm/v/ton.svg?logo=npm)](https://www.npmjs.com/package/ton)
 
@@ -13,10 +13,10 @@ Cross-platform client for TON blockchain.
 ## Install
 
 ```bash
-yarn add ton ton-crypto ton-core buffer
+yarn add @ton/ton @ton/crypto @ton/core buffer
 ```
 
-#### Browser polifil
+#### Browser polyfill
 
 ```js
 // Add before using library
@@ -31,8 +31,8 @@ To use this library you need HTTP API endpoint, you can use one of the public en
 - Testnet: https://testnet.toncenter.com/api/v2/jsonRPC
 
 ```js
-import { TonClient, WalletContractV4, internal } from "ton";
-import { mnemonicNew, mnemonicToPrivateKey } from "ton-crypto";
+import { TonClient, WalletContractV4, internal } from "@ton/ton";
+import { mnemonicNew, mnemonicToPrivateKey } from "@ton/crypto";
 
 // Create Client
 const client = new TonClient({
@@ -68,6 +68,10 @@ let transfer = await contract.createTransfer({
 ## Docs
 
 [Documentation](https://ton-community.github.io/ton/)
+
+## Acknowledgements
+
+This library is developed by the [Whales Corp.](https://tonwhales.com/) and maintained by [Dan Volkov](https://github.com/dvlkv).
 
 ## License
 

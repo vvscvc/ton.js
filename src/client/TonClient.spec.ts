@@ -1,4 +1,4 @@
-import { Address, beginCell } from 'ton-core';
+import { Address, beginCell } from '@ton/core';
 import { TonClient } from './TonClient';
 
 let describeConditional = process.env.TEST_CLIENTS ? describe : describe.skip;

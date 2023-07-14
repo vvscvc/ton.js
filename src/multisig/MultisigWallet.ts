@@ -1,7 +1,7 @@
 /* Made by @Gusarich and @Miandic */
 
 import { TonClient } from '../index';
-import { keyPairFromSecretKey, sign } from 'ton-crypto';
+import { keyPairFromSecretKey, sign } from '@ton/crypto';
 import {
     Address,
     beginCell,
@@ -12,7 +12,7 @@ import {
     Sender,
     Slice,
     StateInit,
-} from 'ton-core';
+} from '@ton/core';
 import { MultisigOrder } from './MultisigOrder';
 
 const MULTISIG_CODE = Cell.fromBase64(

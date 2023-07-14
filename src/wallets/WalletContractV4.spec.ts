@@ -9,7 +9,7 @@
 import { randomTestKey } from "../utils/randomTestKey";
 import { WalletContractV4 } from "./WalletContractV4";
 import { createTestClient4 } from "../utils/createTestClient4";
-import { Address, internal } from "ton-core";
+import { Address, internal } from "@ton/core";
 
 describe('WalletContractV4', () => {
     
