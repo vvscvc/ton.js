@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+- `sendOrderWithoutSecretKey` method to `MultisigWallet`
+
 ## Fixed
 - Uri encode get method name for `TonClient4`
 
