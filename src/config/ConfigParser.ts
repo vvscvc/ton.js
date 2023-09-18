@@ -1,4 +1,4 @@
-import { Address, Slice, Cell, Dictionary, DictionaryValue, Builder } from "ton-core";
+import { Address, Slice, Cell, Dictionary, DictionaryValue, Builder } from "@ton/core";
 
 export function configParseMasterAddress(slice: Slice | null | undefined) {
     if (slice) {

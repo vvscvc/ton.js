@@ -7,7 +7,7 @@
  */
 
 import { createTestClient4 } from "../utils/createTestClient4";
-import { Address } from "ton-core";
+import { Address } from "@ton/core";
 import { ElectorContract } from "./ElectorContract";
 
 const client = createTestClient4("mainnet");
