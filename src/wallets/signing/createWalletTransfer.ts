@@ -6,9 +6,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { beginCell, Builder, MessageRelaxed, OutAction, storeMessageRelaxed } from "@ton/core";
+import { beginCell, Builder, MessageRelaxed, OutActionSendMsg, storeMessageRelaxed } from "@ton/core";
 import { sign } from "ton-crypto";
 import { Maybe } from "../../utils/maybe";
+import {
+    Wallet5SendArgs,
+    WalletContractV5
+} from "../WalletContractV5";
+import {
+    OutActionExtended,
+    storeOutListExtended
+} from "../WalletV5Utils";
 
 export function createWalletTransferV1(args: { seqno: number, sendMode: number, message: Maybe<MessageRelaxed>, secretKey: Buffer }) {
 
@@ -148,4 +156,42 @@ export function createWalletTransferV4(args: {
         .endCell();
 
     return body;
+}
+
+export function createWalletTransferV5(args: Wallet5SendArgs & { actions: (OutActionSendMsg | OutActionExtended)[], walletId: (builder: Builder) => void }) {
+    // Check number of actions
+    if (args.actions.length > 255) {
+        throw Error("Maximum number of OutActions in a single request is 255");
+    }
+
+    if (args.authType === 'extension') {
+        return beginCell()
+            .storeUint(WalletContractV5.opCodes.auth_extension, 32)
+            .store(storeOutListExtended(args.actions))
+            .endCell();
+    }
+
+    if (!('secretKey' in args) || !args.secretKey) {
+        throw Error("Secret key must be provided for non-extension-auth requests");
+    }
+
+    const message = beginCell().store(args.walletId);
+    if (args.seqno === 0) {
+        for (let i = 0; i < 32; i++) {
+            message.storeBit(1);
+        }
+    } else {
+        message.storeUint(args.timeout || Math.floor(Date.now() / 1e3) + 60, 32); // Default timeout: 60 seconds
+    }
+
+     message.storeUint(args.seqno, 32).store(storeOutListExtended(args.actions));
+
+    // Sign message
+    const signature = sign(message.endCell().hash(), args.secretKey);
+
+    return beginCell()
+        .storeUint(args.authType === 'internal' ? WalletContractV5.opCodes.auth_signed_internal : WalletContractV5.opCodes.auth_signed_external, 32)
+        .storeBuffer(signature)
+        .storeBuilder(message)
+        .endCell();
 }
