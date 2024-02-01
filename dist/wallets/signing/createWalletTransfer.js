@@ -83,9 +83,8 @@ function createWalletTransferV3(args) {
         signingMessage.storeRef((0, core_1.beginCell)().store((0, core_1.storeMessageRelaxed)(m)));
     }
     const payloadToSign = signingMessage.endCell().hash();
-    return (0, singer_1.signPayload)(args, payloadToSign, (signature) => (0, core_1.beginCell)()
-        .storeBuffer(signature)
-        .storeBuilder(signingMessage)
+    return (0, singer_1.signPayload)(args, payloadToSign, (signaturePlusPayload) => (0, core_1.beginCell)()
+        .storeBuffer(signaturePlusPayload)
         .endCell());
 }
 exports.createWalletTransferV3 = createWalletTransferV3;
@@ -111,9 +110,8 @@ function createWalletTransferV4(args) {
         signingMessage.storeRef((0, core_1.beginCell)().store((0, core_1.storeMessageRelaxed)(m)));
     }
     const payloadToSign = signingMessage.endCell().hash();
-    return (0, singer_1.signPayload)(args, payloadToSign, (signature) => (0, core_1.beginCell)()
-        .storeBuffer(signature)
-        .storeBuilder(signingMessage)
+    return (0, singer_1.signPayload)(args, payloadToSign, (signaturePlusPayload) => (0, core_1.beginCell)()
+        .storeBuffer(signaturePlusPayload)
         .endCell());
 }
 exports.createWalletTransferV4 = createWalletTransferV4;
@@ -143,10 +141,9 @@ function createWalletTransferV5SignedAuth(args) {
         message.storeUint(args.timeout || Math.floor(Date.now() / 1e3) + 60, 32); // Default timeout: 60 seconds
     }
     message.storeUint(args.seqno, 32).store((0, WalletV5Utils_1.storeOutListExtended)(args.actions));
-    const packResult = (signature) => (0, core_1.beginCell)()
+    const packResult = (signaturePlusPayload) => (0, core_1.beginCell)()
         .storeUint(args.authType === 'internal' ? WalletContractV5_1.WalletContractV5.opCodes.auth_signed_internal : WalletContractV5_1.WalletContractV5.opCodes.auth_signed_external, 32)
-        .storeBuffer(signature)
-        .storeBuilder(message)
+        .storeBuffer(signaturePlusPayload)
         .endCell();
     const payloadToSign = message.endCell().hash();
     return (0, singer_1.signPayload)(args, payloadToSign, packResult);
