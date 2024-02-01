@@ -25,6 +25,7 @@ import {
     createWalletTransferV5SignedAuth
 } from "./signing/createWalletTransfer";
 import { OutActionExtended, storeWalletId, WalletId } from "./WalletV5Utils";
+import { ExternallySingedAuthSendArgs, SingedAuthSendArgs } from "./signing/singer";
 
 
 
@@ -34,15 +35,13 @@ export type Wallet5BasicSendArgs = {
     timeout?: Maybe<number>;
 }
 
-export type SingedAuthWallet5SendArgs = Wallet5BasicSendArgs & {
-    authType?: 'external' | 'internal';
-    secretKey: Buffer;
-}
+export type SingedAuthWallet5SendArgs = Wallet5BasicSendArgs 
+    & SingedAuthSendArgs 
+    & {  authType?: 'external' | 'internal';};
 
-export type ExternallySingedAuthWallet5SendArgs = Wallet5BasicSendArgs & {
-    authType?: 'external' | 'internal';
-    signer: (buffer: Buffer) => Promise<Buffer>;
-}
+export type ExternallySingedAuthWallet5SendArgs = Wallet5BasicSendArgs 
+    & ExternallySingedAuthSendArgs 
+    & {  authType?: 'external' | 'internal'; };
 
 export type ExtensionAuthWallet5SendArgs = Wallet5BasicSendArgs & {
     authType: 'extension';

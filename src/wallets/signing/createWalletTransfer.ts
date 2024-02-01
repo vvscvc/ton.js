@@ -19,6 +19,7 @@ import {
     OutActionExtended,
     storeOutListExtended
 } from "../WalletV5Utils";
+import { signPayload } from "./singer";
 
 export function createWalletTransferV1(args: { seqno: number, sendMode: number, message: Maybe<MessageRelaxed>, secretKey: Buffer }) {
 
@@ -197,11 +198,6 @@ export function createWalletTransferV5SignedAuth<T extends ExternallySingedAuthW
             .endCell();
 
     const payloadToSign = message.endCell().hash();
-    if ('secretKey' in args) {
-        const signature = sign(payloadToSign, args.secretKey);
-        return packResult(signature) as T extends ExternallySingedAuthWallet5SendArgs ? Promise<Cell> : Cell;
-    }
-    // Sign message
 
-    return args.signer(payloadToSign).then(packResult) as T extends ExternallySingedAuthWallet5SendArgs ? Promise<Cell> : Cell;
+    return signPayload(args, payloadToSign, packResult) as T extends ExternallySingedAuthWallet5SendArgs ? Promise<Cell> : Cell;;
 }
