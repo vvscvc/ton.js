@@ -1,5 +1,5 @@
 /**
- * Copyright (c) Whales Corp. 
+ * Copyright (c) Whales Corp.
  * All Rights Reserved.
  *
  * This source code is licensed under the MIT license found in the
@@ -147,7 +147,7 @@ export class TonClient {
      * @returns transaction
      */
     async tryLocateResultTx(source: Address, destination: Address, created_lt: string) {
-        let res = await this.#api.tryLocateResultTx(source, destination, created_lt);
+        let res = await this.api.tryLocateResultTx(source, destination, created_lt);
         return loadTransaction(Cell.fromBase64(res.data).beginParse());
     }
 
@@ -159,7 +159,7 @@ export class TonClient {
      * @returns transaction
      */
     async tryLocateSourceTx(source: Address, destination: Address, created_lt: string) {
-        let res = await this.#api.tryLocateSourceTx(source, destination, created_lt);
+        let res = await this.api.tryLocateSourceTx(source, destination, created_lt);
         return loadTransaction(Cell.fromBase64(res.data).beginParse());
     }
 
@@ -231,7 +231,7 @@ export class TonClient {
     /**
      * Estimate fees for external message
      * @param address target address
-     * @returns 
+     * @returns
      */
     async estimateExternalMessageFee(address: Address, args: {
         body: Cell,

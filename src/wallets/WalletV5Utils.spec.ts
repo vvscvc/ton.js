@@ -2,12 +2,10 @@ import {
     beginCell,
     SendMode,
     storeMessageRelaxed,
-    storeOutAction,
     Address,
     OutAction,
-    storeOutList,
     MessageRelaxed, OutActionSendMsg
-} from "ton-core";
+} from "@ton/core";
 import {
     loadOutListExtended,
     loadWalletId,
