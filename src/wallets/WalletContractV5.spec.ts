@@ -7,9 +7,9 @@
  */
 
 import {randomTestKey} from "../utils/randomTestKey";
-import {Address, internal, OpenedContract, SendMode} from "ton-core";
+import {Address, internal, OpenedContract, SendMode} from "@ton/core";
 import {WalletContractV5} from "./WalletContractV5";
-import {KeyPair, sign} from "ton-crypto";
+import {KeyPair, sign} from "@ton/crypto";
 import {createTestClient} from "../utils/createTestClient";
 import {TonClient} from "../client/TonClient";
 import {Buffer} from "buffer";

@@ -7,11 +7,12 @@
  */
 
 import { beginCell, Builder, Cell, MessageRelaxed, OutActionSendMsg, storeMessageRelaxed } from "@ton/core";
-import { sign } from "ton-crypto";
+import { sign } from "@ton/crypto";
 import { Maybe } from "../../utils/maybe";
 import {
-    ExtensionAuthWallet5SendArgs, ExternallySingedAuthWallet5SendArgs, SingedAuthWallet5SendArgs, Wallet5BasicSendArgs,
-    Wallet5SendArgs,
+    ExternallySingedAuthWallet5SendArgs,
+    SingedAuthWallet5SendArgs,
+    Wallet5BasicSendArgs,
     WalletContractV5
 } from "../WalletContractV5";
 import {

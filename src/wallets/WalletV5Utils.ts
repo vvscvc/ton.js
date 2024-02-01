@@ -7,7 +7,7 @@ import {
     OutActionSendMsg,
     Slice,
     storeOutList
-} from 'ton-core';
+} from '@ton/core';
 
 export interface OutActionAddExtension {
     type: 'addExtension';
