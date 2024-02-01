@@ -113,7 +113,7 @@ export class WalletContractV4 implements Contract {
     /**
      * Create asynchronously signed request
      */
-    createAndSignRequestAsync(args: ExternallySingedAuthWallet4SendArgs) {
+    createTransferAndSignRequestAsync(args: ExternallySingedAuthWallet4SendArgs) {
         return createWalletTransferV4({
             ...args,
             sendMode: args.sendMode ?? SendMode.PAY_GAS_SEPARATELY,
