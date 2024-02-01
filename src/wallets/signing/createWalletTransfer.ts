@@ -21,6 +21,7 @@ import {
 } from "../WalletV5Utils";
 import { signPayload } from "./singer";
 import { ExternallySingedAuthWallet4SendArgs, SingedAuthWallet4SendArgs } from "../WalletContractV4";
+import { ExternallySingedAuthWallet3SendArgs, SingedAuthWallet3SendArgs } from "../WalletContractV3";
 
 export function createWalletTransferV1(args: { seqno: number, sendMode: number, message: Maybe<MessageRelaxed>, secretKey: Buffer }) {
 
@@ -78,14 +79,9 @@ export function createWalletTransferV2(args: { seqno: number, sendMode: number, 
     return body;
 }
 
-export function createWalletTransferV3(args: {
-    seqno: number,
-    sendMode: number,
-    walletId: number,
-    messages: MessageRelaxed[],
-    secretKey: Buffer,
-    timeout?: Maybe<number>
-}) {
+export function createWalletTransferV3<T extends ExternallySingedAuthWallet3SendArgs | SingedAuthWallet3SendArgs>(
+    args: T & { sendMode: number, walletId: number }
+) {
 
     // Check number of messages
     if (args.messages.length > 4) {
@@ -108,16 +104,16 @@ export function createWalletTransferV3(args: {
         signingMessage.storeRef(beginCell().store(storeMessageRelaxed(m)));
     }
 
-    // Sign message
-    let signature = sign(signingMessage.endCell().hash(), args.secretKey);
+    const payloadToSign = signingMessage.endCell().hash();
 
-    // Body
-    const body = beginCell()
-        .storeBuffer(signature)
-        .storeBuilder(signingMessage)
-        .endCell();
-
-    return body;
+    return signPayload(
+        args,
+        payloadToSign,
+        (signature) => beginCell()
+            .storeBuffer(signature)
+            .storeBuilder(signingMessage)
+            .endCell()
+    ) as T extends ExternallySingedAuthWallet3SendArgs ? Promise<Cell> : Cell;
 }
 
 export function createWalletTransferV4<T extends ExternallySingedAuthWallet4SendArgs | SingedAuthWallet4SendArgs>(
@@ -145,14 +141,16 @@ export function createWalletTransferV4<T extends ExternallySingedAuthWallet4Send
         signingMessage.storeRef(beginCell().store(storeMessageRelaxed(m)));
     }
 
+    const payloadToSign = signingMessage.endCell().hash();
+
     return signPayload(
         args,
-        signingMessage.endCell().hash(),
+        payloadToSign,
         (signature) => beginCell()
             .storeBuffer(signature)
             .storeBuilder(signingMessage)
             .endCell()
-        ) as T extends ExternallySingedAuthWallet4SendArgs ? Promise<Cell> : Cell;
+    ) as T extends ExternallySingedAuthWallet4SendArgs ? Promise<Cell> : Cell;
 }
 
 export function createWalletTransferV5ExtensionAuth(args: Wallet5BasicSendArgs & { actions: (OutActionSendMsg | OutActionExtended)[], walletId: (builder: Builder) => void }) {
