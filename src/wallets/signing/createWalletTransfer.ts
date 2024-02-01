@@ -20,6 +20,7 @@ import {
     storeOutListExtended
 } from "../WalletV5Utils";
 import { signPayload } from "./singer";
+import { ExternallySingedAuthWallet4SendArgs, SingedAuthWallet4SendArgs } from "../WalletContractV4";
 
 export function createWalletTransferV1(args: { seqno: number, sendMode: number, message: Maybe<MessageRelaxed>, secretKey: Buffer }) {
 
@@ -119,14 +120,9 @@ export function createWalletTransferV3(args: {
     return body;
 }
 
-export function createWalletTransferV4(args: {
-    seqno: number,
-    sendMode: number,
-    walletId: number,
-    messages: MessageRelaxed[],
-    secretKey: Buffer,
-    timeout?: Maybe<number>
-}) {
+export function createWalletTransferV4<T extends ExternallySingedAuthWallet4SendArgs | SingedAuthWallet4SendArgs>(
+    args: T & { sendMode: number, walletId: number }
+) {
 
     // Check number of messages
     if (args.messages.length > 4) {
@@ -149,16 +145,14 @@ export function createWalletTransferV4(args: {
         signingMessage.storeRef(beginCell().store(storeMessageRelaxed(m)));
     }
 
-    // Sign message
-    let signature: Buffer = sign(signingMessage.endCell().hash(), args.secretKey);
-
-    // Body
-    const body = beginCell()
-        .storeBuffer(signature)
-        .storeBuilder(signingMessage)
-        .endCell();
-
-    return body;
+    return signPayload(
+        args,
+        signingMessage.endCell().hash(),
+        (signature) => beginCell()
+            .storeBuffer(signature)
+            .storeBuilder(signingMessage)
+            .endCell()
+        ) as T extends ExternallySingedAuthWallet4SendArgs ? Promise<Cell> : Cell;
 }
 
 export function createWalletTransferV5ExtensionAuth(args: Wallet5BasicSendArgs & { actions: (OutActionSendMsg | OutActionExtended)[], walletId: (builder: Builder) => void }) {
@@ -199,5 +193,5 @@ export function createWalletTransferV5SignedAuth<T extends ExternallySingedAuthW
 
     const payloadToSign = message.endCell().hash();
 
-    return signPayload(args, payloadToSign, packResult) as T extends ExternallySingedAuthWallet5SendArgs ? Promise<Cell> : Cell;;
+    return signPayload(args, payloadToSign, packResult) as T extends ExternallySingedAuthWallet5SendArgs ? Promise<Cell> : Cell;
 }
