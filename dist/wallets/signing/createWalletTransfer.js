@@ -82,10 +82,7 @@ function createWalletTransferV3(args) {
         signingMessage.storeUint(args.sendMode, 8);
         signingMessage.storeRef((0, core_1.beginCell)().store((0, core_1.storeMessageRelaxed)(m)));
     }
-    const payloadToSign = signingMessage.endCell().hash();
-    return (0, singer_1.signPayload)(args, payloadToSign, (signaturePlusPayload) => (0, core_1.beginCell)()
-        .storeBuffer(signaturePlusPayload)
-        .endCell());
+    return (0, singer_1.signPayload)(args, signingMessage, (signatureWithMessage) => signatureWithMessage);
 }
 exports.createWalletTransferV3 = createWalletTransferV3;
 function createWalletTransferV4(args) {
@@ -109,10 +106,7 @@ function createWalletTransferV4(args) {
         signingMessage.storeUint(args.sendMode, 8);
         signingMessage.storeRef((0, core_1.beginCell)().store((0, core_1.storeMessageRelaxed)(m)));
     }
-    const payloadToSign = signingMessage.endCell().hash();
-    return (0, singer_1.signPayload)(args, payloadToSign, (signaturePlusPayload) => (0, core_1.beginCell)()
-        .storeBuffer(signaturePlusPayload)
-        .endCell());
+    return (0, singer_1.signPayload)(args, signingMessage, (signatureWithMessage) => signatureWithMessage);
 }
 exports.createWalletTransferV4 = createWalletTransferV4;
 function createWalletTransferV5ExtensionAuth(args) {
@@ -131,21 +125,20 @@ function createWalletTransferV5SignedAuth(args) {
     if (args.actions.length > 255) {
         throw Error("Maximum number of OutActions in a single request is 255");
     }
-    const message = (0, core_1.beginCell)().store(args.walletId);
+    const signingMessage = (0, core_1.beginCell)().store(args.walletId);
     if (args.seqno === 0) {
         for (let i = 0; i < 32; i++) {
-            message.storeBit(1);
+            signingMessage.storeBit(1);
         }
     }
     else {
-        message.storeUint(args.timeout || Math.floor(Date.now() / 1e3) + 60, 32); // Default timeout: 60 seconds
+        signingMessage.storeUint(args.timeout || Math.floor(Date.now() / 1e3) + 60, 32); // Default timeout: 60 seconds
     }
-    message.storeUint(args.seqno, 32).store((0, WalletV5Utils_1.storeOutListExtended)(args.actions));
-    const packResult = (signaturePlusPayload) => (0, core_1.beginCell)()
+    signingMessage.storeUint(args.seqno, 32).store((0, WalletV5Utils_1.storeOutListExtended)(args.actions));
+    const packResult = (signatureWithMessage) => (0, core_1.beginCell)()
         .storeUint(args.authType === 'internal' ? WalletContractV5_1.WalletContractV5.opCodes.auth_signed_internal : WalletContractV5_1.WalletContractV5.opCodes.auth_signed_external, 32)
-        .storeBuffer(signaturePlusPayload)
+        .storeBuilder(signatureWithMessage.asBuilder())
         .endCell();
-    const payloadToSign = message.endCell().hash();
-    return (0, singer_1.signPayload)(args, payloadToSign, packResult);
+    return (0, singer_1.signPayload)(args, signingMessage, packResult);
 }
 exports.createWalletTransferV5SignedAuth = createWalletTransferV5SignedAuth;
