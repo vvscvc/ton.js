@@ -109,9 +109,8 @@ export function createWalletTransferV3<T extends ExternallySingedAuthWallet3Send
     return signPayload(
         args,
         payloadToSign,
-        (signature) => beginCell()
-            .storeBuffer(signature)
-            .storeBuilder(signingMessage)
+        (signaturePlusPayload) =>  beginCell()
+            .storeBuffer(signaturePlusPayload)
             .endCell()
     ) as T extends ExternallySingedAuthWallet3SendArgs ? Promise<Cell> : Cell;
 }
@@ -146,9 +145,8 @@ export function createWalletTransferV4<T extends ExternallySingedAuthWallet4Send
     return signPayload(
         args,
         payloadToSign,
-        (signature) => beginCell()
-            .storeBuffer(signature)
-            .storeBuilder(signingMessage)
+        (signaturePlusPayload) => beginCell()
+            .storeBuffer(signaturePlusPayload)
             .endCell()
     ) as T extends ExternallySingedAuthWallet4SendArgs ? Promise<Cell> : Cell;
 }
@@ -183,10 +181,9 @@ export function createWalletTransferV5SignedAuth<T extends ExternallySingedAuthW
 
     message.storeUint(args.seqno, 32).store(storeOutListExtended(args.actions));
 
-    const packResult = (signature: Buffer) => beginCell()
+    const packResult = (signaturePlusPayload: Buffer) => beginCell()
             .storeUint(args.authType === 'internal' ? WalletContractV5.opCodes.auth_signed_internal : WalletContractV5.opCodes.auth_signed_external, 32)
-            .storeBuffer(signature)
-            .storeBuilder(message)
+            .storeBuffer(signaturePlusPayload)
             .endCell();
 
     const payloadToSign = message.endCell().hash();
