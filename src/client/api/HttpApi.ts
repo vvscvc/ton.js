@@ -317,6 +317,14 @@ export class HttpApi {
         }, feeResponse);
     }
 
+    async tryLocateResultTx(source: Address, destination: Address, created_lt: string) {
+        return await this.doCall('tryLocateResultTx', { source: source.toString(), destination: destination.toString(), created_lt }, transaction);
+    }
+
+    async tryLocateSourceTx(source: Address, destination: Address, created_lt: string) {
+        return await this.doCall('tryLocateSourceTx', { source: source.toString(), destination: destination.toString(), created_lt }, transaction);
+    }
+
     private async doCall<T>(method: string, body: any, codec: z.ZodType<T>) {
         let headers: Record<string, any> = {
             'Content-Type': 'application/json',

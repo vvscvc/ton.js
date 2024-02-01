@@ -42,4 +42,15 @@ describeConditional('TonClient', () => {
 
         console.log(info, shardInfo, wcShards);
     });
+
+    it('should locate source/result tx', async () => {
+        let source = Address.parse('UQDDT0TOC4PMp894jtCo3-d1-8ltSjXMX2EuWww_pCNibsUH');
+        let createdLt = '37508996000002';
+
+        let infoSource = await client.tryLocateSourceTx(source, testAddress, createdLt);
+        console.log(infoSource);
+
+        let infoResult = await client.tryLocateResultTx(source, testAddress, createdLt);
+        console.log(infoResult);
+    });
 });

@@ -140,6 +140,30 @@ export class TonClient {
     }
 
     /**
+     * Locate outcoming transaction of destination address by incoming message
+     * @param source message source address
+     * @param destination message destination address
+     * @param created_lt message's created lt
+     * @returns transaction
+     */
+    async tryLocateResultTx(source: Address, destination: Address, created_lt: string) {
+        let res = await this.#api.tryLocateResultTx(source, destination, created_lt);
+        return loadTransaction(Cell.fromBase64(res.data).beginParse());
+    }
+
+    /**
+     * Locate incoming transaction of source address by outcoming message
+     * @param source message source address
+     * @param destination message destination address
+     * @param created_lt message's created lt
+     * @returns transaction
+     */
+    async tryLocateSourceTx(source: Address, destination: Address, created_lt: string) {
+        let res = await this.#api.tryLocateSourceTx(source, destination, created_lt);
+        return loadTransaction(Cell.fromBase64(res.data).beginParse());
+    }
+
+    /**
      * Fetch latest masterchain info
      * @returns masterchain info
      */
