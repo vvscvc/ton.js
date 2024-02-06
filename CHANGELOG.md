@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Fixed
 - Vue.js compilation (thx @d0rich)
+- Allow to use `HttpApi` property in `TonClient` inheritants (thx @ernieyang09)
 
 ## [13.9.0] - 2023-10-25
 
