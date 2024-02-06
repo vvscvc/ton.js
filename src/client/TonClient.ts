@@ -147,7 +147,7 @@ export class TonClient {
      * @returns transaction
      */
     async tryLocateResultTx(source: Address, destination: Address, created_lt: string) {
-        let res = await this.#api.tryLocateResultTx(source, destination, created_lt);
+        let res = await this.api.tryLocateResultTx(source, destination, created_lt);
         return loadTransaction(Cell.fromBase64(res.data).beginParse());
     }
 
@@ -159,7 +159,7 @@ export class TonClient {
      * @returns transaction
      */
     async tryLocateSourceTx(source: Address, destination: Address, created_lt: string) {
-        let res = await this.#api.tryLocateSourceTx(source, destination, created_lt);
+        let res = await this.api.tryLocateSourceTx(source, destination, created_lt);
         return loadTransaction(Cell.fromBase64(res.data).beginParse());
     }
 
