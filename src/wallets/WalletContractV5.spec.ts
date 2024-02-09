@@ -7,7 +7,7 @@
  */
 
 import {randomTestKey} from "../utils/randomTestKey";
-import {Address, internal, OpenedContract, SendMode} from "@ton/core";
+import {Address, beginCell, Cell, internal, OpenedContract, SendMode} from "@ton/core";
 import {WalletContractV5} from "./WalletContractV5";
 import {KeyPair, sign} from "@ton/crypto";
 import {createTestClient} from "../utils/createTestClient";
@@ -65,8 +65,16 @@ describe('WalletContractV5', () => {
     it('should perform single transfer with async signing', async () => {
         const seqno = await wallet.getSeqno();
 
-        const signer = (payload: Buffer) => new Promise<Buffer>(r =>
-            setTimeout(() => r(sign(payload, walletKey.secretKey)), 100)
+        const signer = (payload: Cell) => new Promise<Cell>(r =>
+            setTimeout(() => {
+                const signature = sign(payload.hash(), walletKey.secretKey);
+                r(
+                    beginCell()
+                        .storeBuffer(signature)
+                        .storeBuilder(payload.asBuilder())
+                        .endCell()
+                )
+            }, 100)
         );
 
         const transfer = await wallet.createAndSignRequestAsync({

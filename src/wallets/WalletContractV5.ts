@@ -25,6 +25,7 @@ import {
     createWalletTransferV5SignedAuth
 } from "./signing/createWalletTransfer";
 import { OutActionExtended, storeWalletId, WalletId } from "./WalletV5Utils";
+import { ExternallySingedAuthSendArgs, SingedAuthSendArgs } from "./signing/singer";
 
 
 
@@ -34,15 +35,13 @@ export type Wallet5BasicSendArgs = {
     timeout?: Maybe<number>;
 }
 
-export type SingedAuthWallet5SendArgs = Wallet5BasicSendArgs & {
-    authType?: 'external' | 'internal';
-    secretKey: Buffer;
-}
+export type SingedAuthWallet5SendArgs = Wallet5BasicSendArgs 
+    & SingedAuthSendArgs 
+    & { authType?: 'external' | 'internal';};
 
-export type ExternallySingedAuthWallet5SendArgs = Wallet5BasicSendArgs & {
-    authType?: 'external' | 'internal';
-    signer: (buffer: Buffer) => Promise<Buffer>;
-}
+export type ExternallySingedAuthWallet5SendArgs = Wallet5BasicSendArgs 
+    & ExternallySingedAuthSendArgs 
+    & {  authType?: 'external' | 'internal'; };
 
 export type ExtensionAuthWallet5SendArgs = Wallet5BasicSendArgs & {
     authType: 'extension';
@@ -199,18 +198,31 @@ export class WalletContractV5 implements Contract {
         await this.send(provider, request);
     }
 
+    private createActions( args: {  messages: MessageRelaxed[], sendMode?: Maybe<SendMode> }) {
+        const sendMode = args.sendMode ?? SendMode.PAY_GAS_SEPARATELY + SendMode.IGNORE_ERRORS;
+        const actions: OutActionSendMsg[] = args.messages.map(message => ({ type: 'sendMsg', mode: sendMode, outMsg: message}));
+        return actions;
+    }
+
     /**
      * Create signed transfer
      */
     createTransfer(args: Wallet5SendArgs & { messages: MessageRelaxed[] }) {
         const { messages, ...rest } = args;
-
-        const sendMode = args.sendMode ?? SendMode.PAY_GAS_SEPARATELY + SendMode.IGNORE_ERRORS;
-        const actions: OutActionSendMsg[] = messages.map(message => ({ type: 'sendMsg', mode: sendMode, outMsg: message}));
-
         return this.createRequest({
             ...rest,
-            actions
+            actions: this.createActions({ messages, sendMode: args.sendMode })
+        })
+    }
+
+    /**
+     * Create signed transfer async
+     */
+    createTransferAndSignRequestAsync(args: ExternallySingedAuthWallet5SendArgs & { messages: MessageRelaxed[] }) {
+        const { messages, ...rest } = args;
+        return this.createAndSignRequestAsync({
+            ...rest,
+            actions: this.createActions({ messages, sendMode: args.sendMode })
         })
     }
 
