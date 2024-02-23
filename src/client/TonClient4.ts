@@ -457,7 +457,7 @@ function createProvider(client: TonClient4, block: number | null, address: Addre
 
                 const firstTx = txs[0].tx;
                 const [firstLt, firstHash] = [firstTx.lt, firstTx.hash()];
-                const needSkipFirst = firstLt === lt && firstHash.equals(hash);
+                const needSkipFirst = transactions.length > 0 && firstLt === lt && firstHash.equals(hash);
                 if (needSkipFirst) {
                     txs.shift();
                 }
