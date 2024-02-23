@@ -950,14 +950,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ton/core@npm:^0.55.0":
-  version: 0.55.0
-  resolution: "@ton/core@npm:0.55.0"
+"@ton/core@npm:^0.56.0":
+  version: 0.56.0
+  resolution: "@ton/core@npm:0.56.0"
   dependencies:
     symbol.inspect: 1.0.1
   peerDependencies:
     "@ton/crypto": ">=3.2.0"
-  checksum: 62201f0358cb9f5b1014f85681589008c9db193dd97294d48d22b590d468c33574371f4d8b203406fe8b1721d437930eb1b896c357a997fed29fd222e7da2681
+  checksum: ce7540c8ee079908a756d789833a672710251a5543f2af00122b965d21f31de2d5d4fa0d2ce232d531ae772919fbc65ec0ca498b475a042f99e7738f80590872
   languageName: node
   linkType: hard
 
@@ -1000,7 +1000,7 @@ __metadata:
   resolution: "@ton/ton@workspace:."
   dependencies:
     "@release-it/keep-a-changelog": ^3.1.0
-    "@ton/core": ^0.55.0
+    "@ton/core": ^0.56.0
     "@ton/crypto": 3.2.0
     "@ton/emulator": ^2.1.1
     "@types/jest": ^27.0.1
@@ -1028,7 +1028,7 @@ __metadata:
     webpack: ^5.51.2
     zod: ^3.21.4
   peerDependencies:
-    "@ton/core": ">=0.53.0"
+    "@ton/core": ">=0.56.0"
     "@ton/crypto": ">=3.2.0"
   languageName: unknown
   linkType: soft
