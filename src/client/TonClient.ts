@@ -333,8 +333,8 @@ export class TonClient {
      * @param init optional init
      * @returns provider
      */
-    provider(address: Address, init: StateInit | null) {
-        return createProvider(this, address, init);
+    provider(address: Address, init?: StateInit | null) {
+        return createProvider(this, address, init ?? null);
     }
 }
 
