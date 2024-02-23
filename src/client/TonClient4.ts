@@ -443,9 +443,46 @@ function createProvider(client: TonClient4, block: number | null, address: Addre
         open<T extends Contract>(contract: T): OpenedContract<T> {
             return openContract<T>(contract, (args) => createProvider(client, block, args.address, args.init ?? null));
         },
-        async getTransactions(address: Address, lt: bigint, hash: Buffer): Promise<Transaction[]> {
-            const result = await client.getAccountTransactions(address, lt, hash);
-            return result.flatMap(x => x.tx);
+        async getTransactions(address: Address, lt: bigint, hash: Buffer, limit?: number): Promise<Transaction[]> {
+            // Resolve last
+            const useLimit = typeof limit === 'number';
+            if (useLimit && limit <= 0) {
+                return [];
+            }
+
+            // Load transactions
+            let transactions: Transaction[] = [];
+            do {
+                const txs = await client.getAccountTransactions(address, lt, hash);
+
+                const firstTx = txs[0].tx;
+                const [firstLt, firstHash] = [firstTx.lt, firstTx.hash()];
+                const needSkipFirst = firstLt === lt && firstHash.equals(hash);
+                if (needSkipFirst) {
+                    txs.shift();
+                }
+
+                if (txs.length === 0) {
+                    break;
+                }
+                const lastTx = txs[txs.length - 1].tx;
+                const [lastLt, lastHash] = [lastTx.lt, lastTx.hash()];
+                if (lastLt === lt && lastHash.equals(hash)) {
+                    break;
+                }
+
+                transactions.push(...txs.map(tx => tx.tx));
+                lt = lastLt;
+                hash = lastHash;
+            } while (useLimit && transactions.length < limit);
+
+            // Apply limit
+            if (useLimit) {
+                transactions = transactions.slice(0, limit);
+            }
+
+            // Return transactions
+            return transactions;
         }
     }
 }
