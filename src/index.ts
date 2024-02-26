@@ -12,8 +12,8 @@ export * from '@ton/core';
 // toncenter Client
 //
 
-export { HttpApi } from './client/api/HttpApi';
-export { TonClient } from './client/TonClient';
+export { HttpApi, HttpApiParameters } from './client/api/HttpApi';
+export { TonClient, TonClientParameters } from './client/TonClient';
 
 //
 // API V4 Client
