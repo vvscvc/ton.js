@@ -240,7 +240,7 @@ export class HttpApi {
         return this.doCall('getAddressInformation', { address: address.toString() }, addressInformation);
     }
 
-    async getTransactions(address: Address, opts: { limit: number, lt?: string, hash?: string, to_lt?: string, inclusive?: boolean }) {
+    async getTransactions(address: Address, opts: { limit: number, lt?: string, hash?: string, to_lt?: string, inclusive?: boolean, archival?: boolean }) {
         const inclusive = opts.inclusive;
         delete opts.inclusive;
 

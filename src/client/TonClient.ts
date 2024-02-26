@@ -132,7 +132,7 @@ export class TonClient {
      * Get transactions
      * @param address address
      */
-    async getTransactions(address: Address, opts: { limit: number, lt?: string, hash?: string, to_lt?: string, inclusive?: boolean }) {
+    async getTransactions(address: Address, opts: { limit: number, lt?: string, hash?: string, to_lt?: string, inclusive?: boolean, archival?: boolean }) {
         // Fetch transactions
         let tx = await this.api.getTransactions(address, opts);
         let res: Transaction[] = [];
