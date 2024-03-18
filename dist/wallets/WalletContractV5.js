@@ -26,7 +26,7 @@ class WalletContractV5 {
         this.publicKey = publicKey;
         this.walletId = walletId;
         // Build initial code and data
-        let code = core_1.Cell.fromBoc(Buffer.from('b5ee9c72410106010030000114ff00f4a413f4bcf2c80b0102012003020006f2f0010202d1050400193b511cbec1b232483ec13b552000053c00601cfc59c2', 'hex'))[0];
+        let code = core_1.Cell.fromBoc(Buffer.from('te6cckEBAQEAIwAIQgLkzzsvTG1qYeoPK1RH0mZ4WyavNjfbLe7mvNGqgm80Eg3NjhE=', 'base64'))[0];
         let data = (0, core_1.beginCell)()
             .storeInt(0, 33) // Seqno
             .store((0, WalletV5Utils_1.storeWalletId)(this.walletId))
