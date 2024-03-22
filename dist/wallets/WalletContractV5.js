@@ -26,7 +26,7 @@ class WalletContractV5 {
         this.publicKey = publicKey;
         this.walletId = walletId;
         // Build initial code and data
-        let code = core_1.Cell.fromBoc(Buffer.from('te6cckECFAEAArYAART/APSkE/S88sgLAQIBIAUCAQLyAwESINcoI5tLO3QwBAHmIIMI1yIBgwjXIyCAINch00/TH9Mf7UTQ0iAg00/XC/8I+QFAmPkQ8qNRIrryoVA1uvKi+CO78mT4AKTIyiABzxbJ7VT4DyDHEI4j10wg0CDHANyOFdcoIHYeQ2wg1x0GxxLyZddM0CDHAOYw7VWOgts84hECAUgPBgIBIAgHABu+Xw9qJoQIC465D6AhhAIBIAwJAgEgCwoAGbRdHaiaEAQ65DrhafAAFbWS/aiaGuFEFsFwAgJ2Dg0AFKiA7UTQ1wogwv8AGKuc7UTQgHHXIdcL/wLY0CDHAtwB0NYDAccT3AHXLCMrw6N0jscB+kAw+kQBpLLtRNCBAXHXIfQFgwf0Dt0hxxCOJDDXTCDQIMcA3I4V1yggdh5DbCDXHQbHEvJl10zQIMcA5jDtVY6DMNs84o6LMSDXLCObS3OkMd3iERAB8CDXSYECsbncIIMI1yIBgwjXIyCAINch00/TH9Mf7UTQ0iAg00/XC/8I+QFAmPkQ3VEiuvKhUDW68qL4I7vyZKTIyiABzxbJ7VT4DyDHEI4j10wg0CDHANyOFdcoIHYeQ2wg1x0GxxLyZddM0CDHAOYw7VWOgts84hECypPSAAGO3NcsIOIG3PwgkXCZAdcsIvV3pSQS4lIQsY49MNcsIQZdytSOL9IA7UTQ0iBSBJgwIMEA8qujpI4RIcL/8quBAVDXIdcLAPKqpKPiyMogWM8Wye1UkvIp4uMN10zQ6NdMExIAQiDQIMcA3I4V1yggdh5DbCDXHQbHEvJl10zQIMcA5jDtVQCMAfpAAfpEIaSy7UTQgQFx1xgh1wogAfQFBp0wAsjKB0AUgwf0U/KnjhEzBIMH9FvyqCBuAsEAErDybOLIUAPPFhL0AMntVJtAYqI=', 'base64'))[0];
+        let code = core_1.Cell.fromBoc(Buffer.from('te6cckEBAQEAIwAIQgLkzzsvTG1qYeoPK1RH0mZ4WyavNjfbLe7mvNGqgm80Eg3NjhE=', 'base64'))[0];
         let data = (0, core_1.beginCell)()
             .storeInt(0, 33) // Seqno
             .store((0, WalletV5Utils_1.storeWalletId)(this.walletId))
