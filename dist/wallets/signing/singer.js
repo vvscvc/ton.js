@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.signPayloadW5 = exports.signPayload = void 0;
 const core_1 = require("@ton/core");
 const crypto_1 = require("@ton/crypto");
-function signPayload(args, signingMessage, packResult) {
+function signPayload(args, signingMessage) {
     if ('secretKey' in args) {
         /**
          * Client provider an secretKey to sign transaction.
@@ -13,19 +13,18 @@ function signPayload(args, signingMessage, packResult) {
             .storeBuffer(signature)
             .storeBuilder(signingMessage)
             .endCell();
-        return packResult(signatureWithMessage);
+        return signatureWithMessage;
     }
     else {
         /**
          * Client use external storage for secretKey.
          * In this case lib could create a request to external resource to sign transaction.
          */
-        return args.signer(signingMessage.endCell())
-            .then(packResult);
+        return args.signer(signingMessage.endCell());
     }
 }
 exports.signPayload = signPayload;
-function signPayloadW5(args, signingMessage, packResult) {
+function signPayloadW5(args, signingMessage) {
     if ('secretKey' in args) {
         /**
          * Client provider an secretKey to sign transaction.
@@ -35,15 +34,14 @@ function signPayloadW5(args, signingMessage, packResult) {
             .storeBuilder(signingMessage)
             .storeBuffer(signature)
             .endCell();
-        return packResult(signatureWithMessage);
+        return signatureWithMessage;
     }
     else {
         /**
          * Client use external storage for secretKey.
          * In this case lib could create a request to external resource to sign transaction.
          */
-        return args.signer(signingMessage.endCell())
-            .then(packResult);
+        return args.signer(signingMessage.endCell());
     }
 }
 exports.signPayloadW5 = signPayloadW5;

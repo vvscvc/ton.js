@@ -82,7 +82,7 @@ function createWalletTransferV3(args) {
         signingMessage.storeUint(args.sendMode, 8);
         signingMessage.storeRef((0, core_1.beginCell)().store((0, core_1.storeMessageRelaxed)(m)));
     }
-    return (0, singer_1.signPayload)(args, signingMessage, (signatureWithMessage) => signatureWithMessage);
+    return (0, singer_1.signPayload)(args, signingMessage);
 }
 exports.createWalletTransferV3 = createWalletTransferV3;
 function createWalletTransferV4(args) {
@@ -106,7 +106,7 @@ function createWalletTransferV4(args) {
         signingMessage.storeUint(args.sendMode, 8);
         signingMessage.storeRef((0, core_1.beginCell)().store((0, core_1.storeMessageRelaxed)(m)));
     }
-    return (0, singer_1.signPayload)(args, signingMessage, (signatureWithMessage) => signatureWithMessage);
+    return (0, singer_1.signPayload)(args, signingMessage);
 }
 exports.createWalletTransferV4 = createWalletTransferV4;
 function createWalletTransferV5ExtensionAuth(args) {
@@ -125,7 +125,11 @@ function createWalletTransferV5SignedAuth(args) {
     if (args.actions.length > 255) {
         throw Error("Maximum number of OutActions in a single request is 255");
     }
-    const signingMessage = (0, core_1.beginCell)().store(args.walletId);
+    const signingMessage = (0, core_1.beginCell)()
+        .storeUint(args.authType === 'internal'
+        ? WalletContractV5_1.WalletContractV5.opCodes.auth_signed_internal
+        : WalletContractV5_1.WalletContractV5.opCodes.auth_signed_external, 32)
+        .store(args.walletId);
     if (args.seqno === 0) {
         for (let i = 0; i < 32; i++) {
             signingMessage.storeBit(1);
@@ -134,11 +138,9 @@ function createWalletTransferV5SignedAuth(args) {
     else {
         signingMessage.storeUint(args.timeout || Math.floor(Date.now() / 1e3) + 60, 32); // Default timeout: 60 seconds
     }
-    signingMessage.storeUint(args.seqno, 32).store((0, WalletV5Utils_1.storeOutListExtended)(args.actions));
-    const packResult = (signatureWithMessage) => (0, core_1.beginCell)()
-        .storeUint(args.authType === 'internal' ? WalletContractV5_1.WalletContractV5.opCodes.auth_signed_internal : WalletContractV5_1.WalletContractV5.opCodes.auth_signed_external, 32)
-        .storeBuilder(signatureWithMessage.asBuilder())
-        .endCell();
-    return (0, singer_1.signPayloadW5)(args, signingMessage, packResult);
+    signingMessage
+        .storeUint(args.seqno, 32)
+        .store((0, WalletV5Utils_1.storeOutListExtended)(args.actions));
+    return (0, singer_1.signPayloadW5)(args, signingMessage);
 }
 exports.createWalletTransferV5SignedAuth = createWalletTransferV5SignedAuth;
