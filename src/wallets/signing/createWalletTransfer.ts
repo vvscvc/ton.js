@@ -19,7 +19,7 @@ import {
     OutActionExtended,
     storeOutListExtended
 } from "../WalletV5Utils";
-import { signPayload } from "./singer";
+import { signPayload, signPayloadW5 } from "./singer";
 import { ExternallySingedAuthWallet4SendArgs, SingedAuthWallet4SendArgs } from "../WalletContractV4";
 import { ExternallySingedAuthWallet3SendArgs, SingedAuthWallet3SendArgs } from "../WalletContractV3";
 
@@ -180,5 +180,5 @@ export function createWalletTransferV5SignedAuth<T extends ExternallySingedAuthW
             .storeBuilder(signatureWithMessage.asBuilder())
             .endCell();
 
-    return signPayload(args, signingMessage, packResult) as T extends ExternallySingedAuthWallet5SendArgs ? Promise<Cell> : Cell;
+    return signPayloadW5(args, signingMessage, packResult) as T extends ExternallySingedAuthWallet5SendArgs ? Promise<Cell> : Cell;
 }

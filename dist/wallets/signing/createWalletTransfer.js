@@ -139,6 +139,6 @@ function createWalletTransferV5SignedAuth(args) {
         .storeUint(args.authType === 'internal' ? WalletContractV5_1.WalletContractV5.opCodes.auth_signed_internal : WalletContractV5_1.WalletContractV5.opCodes.auth_signed_external, 32)
         .storeBuilder(signatureWithMessage.asBuilder())
         .endCell();
-    return (0, singer_1.signPayload)(args, signingMessage, packResult);
+    return (0, singer_1.signPayloadW5)(args, signingMessage, packResult);
 }
 exports.createWalletTransferV5SignedAuth = createWalletTransferV5SignedAuth;
