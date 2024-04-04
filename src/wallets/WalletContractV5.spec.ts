@@ -65,15 +65,10 @@ describe('WalletContractV5', () => {
     it('should perform single transfer with async signing', async () => {
         const seqno = await wallet.getSeqno();
 
-        const signer = (payload: Cell) => new Promise<Cell>(r =>
+        const signer = (payload: Cell) => new Promise<Buffer>(r =>
             setTimeout(() => {
                 const signature = sign(payload.hash(), walletKey.secretKey);
-                r(
-                    beginCell()
-                        .storeBuffer(signature)
-                        .storeBuilder(payload.asBuilder())
-                        .endCell()
-                )
+                r(signature)
             }, 100)
         );
 
