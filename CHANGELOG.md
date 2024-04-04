@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [13.11.1] - 2024-02-26
+
+## Fixed
+- Added xports for `HttpApiParameters`/`TonClientParameters`
+- Added `TonClient.getTransactions` missing `archival` parameter
+- Updated packages
+
+## [13.11.0] - 2024-02-23
+
+This update requires `@ton/core` >0.56.0
+
+## Fixed 
+- Updated `TonClient4` and `TonClient` to match contract providers at `@ton/core@0.56.0`
+
+## [13.10.0] - 2024-02-06
+
+## Added
+- Locate tx methods in `TonClient` (thx @krigga)
+
+## Fixed
+- Vue.js compilation (thx @d0rich)
+- Allow to use `HttpApi` property in `TonClient` inheritants (thx @ernieyang09)
+
 ## [13.9.0] - 2023-10-25
 
 ## Removed

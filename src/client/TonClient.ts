@@ -8,7 +8,26 @@
 
 import { HttpApi } from "./api/HttpApi";
 import { AxiosAdapter } from 'axios';
-import { Address, beginCell, Cell, comment, Contract, ContractProvider, ContractState, external, loadTransaction, Message, openContract, storeMessage, toNano, Transaction, TupleItem, TupleReader } from '@ton/core';
+import {
+    Address,
+    beginCell,
+    Cell,
+    comment,
+    Contract,
+    ContractProvider,
+    ContractState,
+    external,
+    loadTransaction,
+    Message,
+    openContract,
+    storeMessage,
+    toNano,
+    Transaction,
+    TupleItem,
+    TupleReader,
+    StateInit,
+    OpenedContract
+} from '@ton/core';
 import { Maybe } from "../utils/maybe";
 
 export type TonClientParameters = {
@@ -36,7 +55,7 @@ export type TonClientParameters = {
 export class TonClient {
     readonly parameters: TonClientParameters;
 
-    private readonly api: HttpApi;
+    protected api: HttpApi;
 
     constructor(parameters: TonClientParameters) {
         this.parameters = {
@@ -113,7 +132,7 @@ export class TonClient {
      * Get transactions
      * @param address address
      */
-    async getTransactions(address: Address, opts: { limit: number, lt?: string, hash?: string, to_lt?: string, inclusive?: boolean }) {
+    async getTransactions(address: Address, opts: { limit: number, lt?: string, hash?: string, to_lt?: string, inclusive?: boolean, archival?: boolean }) {
         // Fetch transactions
         let tx = await this.api.getTransactions(address, opts);
         let res: Transaction[] = [];
@@ -257,7 +276,7 @@ export class TonClient {
         } else {
             const message = external({
                 to: contract.address,
-                init: { code: contract.init.code, data: contract.init.data },
+                init: contract.init,
                 body: src
             });
             await this.sendMessage(message);
@@ -314,8 +333,8 @@ export class TonClient {
      * @param init optional init
      * @returns provider
      */
-    provider(address: Address, init: { code: Cell | null, data: Cell | null } | null) {
-        return createProvider(this, address, init);
+    provider(address: Address, init?: StateInit | null) {
+        return createProvider(this, address, init ?? null);
     }
 }
 
@@ -372,7 +391,7 @@ function parseStack(src: any[]) {
     return new TupleReader(stack);
 }
 
-function createProvider(client: TonClient, address: Address, init: { code: Cell | null, data: Cell | null } | null): ContractProvider {
+function createProvider(client: TonClient, address: Address, init: StateInit | null): ContractProvider {
     return {
         async getState(): Promise<ContractState> {
             let state = await client.getContractState(address);
@@ -422,7 +441,7 @@ function createProvider(client: TonClient, address: Address, init: { code: Cell 
             // Resolve init
             //
 
-            let neededInit: { code: Cell | null, data: Cell | null } | null = null;
+            let neededInit: StateInit | null = null;
             if (init && !await client.isContractDeployed(address)) {
                 neededInit = init;
             }
@@ -433,7 +452,7 @@ function createProvider(client: TonClient, address: Address, init: { code: Cell 
 
             const ext = external({
                 to: address,
-                init: neededInit ? { code: neededInit.code, data: neededInit.data } : null,
+                init: neededInit,
                 body: message
             })
             let boc = beginCell()
@@ -445,7 +464,7 @@ function createProvider(client: TonClient, address: Address, init: { code: Cell 
         async internal(via, message) {
 
             // Resolve init
-            let neededInit: { code: Cell | null, data: Cell | null } | null = null;
+            let neededInit: StateInit | null = null;
             if (init && (!await client.isContractDeployed(address))) {
                 neededInit = init;
             }
@@ -481,6 +500,12 @@ function createProvider(client: TonClient, address: Address, init: { code: Cell 
                 init: neededInit,
                 body
             });
+        },
+        open<T extends Contract>(contract: T): OpenedContract<T> {
+            return openContract<T>(contract, (args) => createProvider(client, args.address, args.init ?? null));
+        },
+        getTransactions(address: Address, lt: bigint, hash: Buffer, limit?: number): Promise<Transaction[]> {
+            return client.getTransactions(address, { limit: limit ?? 100, lt: lt.toString(), hash: hash.toString('base64'), inclusive: true });
         }
     }
 }
