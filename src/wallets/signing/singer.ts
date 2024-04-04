@@ -10,7 +10,9 @@ export type ExternallySingedAuthSendArgs = {
 }
 
 export function signPayload<T extends SingedAuthSendArgs | ExternallySingedAuthSendArgs>(
-    args: T, signingMessage: Builder, packMessage: (signature: Buffer, signingMessage: Builder) => Cell
+    args: T,
+    signingMessage: Builder,
+    packMessage: (signature: Buffer, signingMessage: Builder) => Cell
 ): T extends ExternallySingedAuthSendArgs ? Promise<Cell> : Cell {
 
     if ('secretKey' in args) {
