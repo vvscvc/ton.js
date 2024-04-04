@@ -19,9 +19,28 @@ import {
     OutActionExtended,
     storeOutListExtended
 } from "../WalletV5Utils";
-import { signPayload, signPayloadW5 } from "./singer";
+import { signPayload } from "./singer";
 import { ExternallySingedAuthWallet4SendArgs, SingedAuthWallet4SendArgs } from "../WalletContractV4";
 import { ExternallySingedAuthWallet3SendArgs, SingedAuthWallet3SendArgs } from "../WalletContractV3";
+
+
+function packSignatureToFront(signature: Buffer, signingMessage: Builder): Cell {
+    const body = beginCell()
+        .storeBuffer(signature)
+        .storeBuilder(signingMessage)
+        .endCell();
+
+    return body;
+}
+
+function packSignatureToTail(signature: Buffer, signingMessage: Builder): Cell {
+    const body = beginCell()
+        .storeBuilder(signingMessage)
+        .storeBuffer(signature)
+        .endCell();
+
+    return body;
+}
 
 export function createWalletTransferV1(args: { seqno: number, sendMode: number, message: Maybe<MessageRelaxed>, secretKey: Buffer }) {
 
@@ -104,11 +123,10 @@ export function createWalletTransferV3<T extends ExternallySingedAuthWallet3Send
         signingMessage.storeRef(beginCell().store(storeMessageRelaxed(m)));
     }
 
-
-
     return signPayload(
         args,
         signingMessage,
+        packSignatureToFront,
     ) as T extends ExternallySingedAuthWallet3SendArgs ? Promise<Cell> : Cell;
 }
 
@@ -140,6 +158,7 @@ export function createWalletTransferV4<T extends ExternallySingedAuthWallet4Send
     return signPayload(
         args,
         signingMessage,
+        packSignatureToFront,
     ) as T extends ExternallySingedAuthWallet4SendArgs ? Promise<Cell> : Cell;
 }
 
@@ -180,6 +199,9 @@ export function createWalletTransferV5SignedAuth<T extends ExternallySingedAuthW
         .storeUint(args.seqno, 32)
         .store(storeOutListExtended(args.actions));
 
-
-    return signPayloadW5(args, signingMessage) as T extends ExternallySingedAuthWallet5SendArgs ? Promise<Cell> : Cell;
+    return signPayload(
+        args,
+        signingMessage,
+        packSignatureToTail,
+    ) as T extends ExternallySingedAuthWallet5SendArgs ? Promise<Cell> : Cell;
 }
