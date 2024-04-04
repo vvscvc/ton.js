@@ -83,7 +83,7 @@ export class WalletContractV5 implements Contract {
         this.walletId = walletId;
 
         // Build initial code and data
-        let code = Cell.fromBoc(Buffer.from('te6cckEBAQEAIwAIQgKIfXc9nCJVtIFh6w1bMHOki2Wj0Yf468kmC0T9ahQ69FvSGsM=', 'base64'))[0];
+        let code = Cell.fromBoc(Buffer.from('te6cckEBAQEAIwAIQgLkzzsvTG1qYeoPK1RH0mZ4WyavNjfbLe7mvNGqgm80Eg3NjhE=', 'base64'))[0];
         let data = beginCell()
             .storeInt(0, 33) // Seqno
             .store(storeWalletId(this.walletId))
